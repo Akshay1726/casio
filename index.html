@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Themed JavaScript Basics Assessment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color:lightcyan;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .task {
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            width: calc(100% - 22px);
+            max-width: 300px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Section Colors */
+        .task.calculator {
+            background-color: #e0f7fa;
+            color: #006064;
+        }
+
+        .task.array-operations {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .task.object-manipulation {
+            background-color: #fff3e0;
+            color: #ef6c00;
+        }
+
+        input.calculator {
+            background-color: #b2ebf2;
+            color: #006064;
+        }
+
+        input.array-operations {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        input.object-manipulation {
+            background-color: #ffe0b2;
+            color: #ef6c00;
+        }
+
+        .calculator button {
+            background-color: #00acc1;
+        }
+
+        .array-operations button {
+            background-color: #66bb6a;
+        }
+
+        .object-manipulation button {
+            background-color: #fb8c00;
+        }
+
+        .calculator button:hover {
+            background-color: #00838f;
+        }
+
+        .array-operations button:hover {
+            background-color: #388e3c;
+        }
+
+        .object-manipulation button:hover {
+            background-color: #e65100;
+        }
+
+        .calculator .result {
+            color: #00796b;
+        }
+
+        .array-operations .result {
+            color: #388e3c;
+        }
+
+        .object-manipulation .result {
+            color: #d84315;
+        }
+        
+        @media (max-width: 600px) {
+            input, button {
+                width: calc(100% - 12px);
+            }
+
+            .container {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="task calculator">
+            <div class="task-title">  Calculator</div>
+            <input type="number" id="num1" class="calculator" placeholder="Enter first number">
+            <input type="number" id="num2" class="calculator" placeholder="Enter second number">
+            <input type="text" id="operator" class="calculator" placeholder="Enter operator (+, -, *, /)">
+            <button onclick="calculate()">Calculate</button>
+            <div id="result" class="result"></div>
+        </div>
+
+        <div class="task array-operations">
+            <div class="task-title"> Operations</div>
+            <input type="text" id="arrayInput" class="array-operations" placeholder="Enter numbers separated by commas">
+            <button onclick="calculateSumOfEvens()">Calculate Sum of Even Numbers</button>
+            <div id="sumResult" class="result"></div>
+        </div>
+
+        <div class="task object-manipulation">
+            <div class="task-title">Object Manipulation</div>
+            <input type="text" id="firstName" class="object-manipulation" placeholder="Enter first name">
+            <input type="text" id="lastName" class="object-manipulation" placeholder="Enter last name">
+            <input type="number" id="age" class="object-manipulation" placeholder="Enter age">
+            <button onclick="createPerson()">Create Person</button>
+            <div id="fullNameResult" class="result"></div>
+            <button onclick="incrementAge()">Increment Age</button>
+            <div id="ageResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // Task 1: Simple Calculator
+        function calculate() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const operator = document.getElementById('operator').value;
+            let result;
+
+            if (isNaN(num1) || isNaN(num2)) {
+                result = 'Please enter valid numbers.';
+            } else {
+                switch (operator) {
+                    case '+':
+                        result = num1 + num2;
+                        break;
+                    case '-':
+                        result = num1 - num2;
+                        break;
+                    case '*':
+                        result = num1 * num2;
+                        break;
+                    case '/':
+                        result = num2 !== 0 ? num1 / num2 : 'Cannot divide by zero';
+                        break;
+                    default:
+                        result = 'Invalid operator. Please use +, -, *, or /.';
+                }
+            }
+            document.getElementById('result').textContent = result;
+        }
+
+        // Task 2: Array Operations
+        function calculateSumOfEvens() {
+            const input = document.getElementById('arrayInput').value;
+            const numbers = input.split(',').map(Number);
+            const sum = numbers.reduce((acc, num) => num % 2 === 0 ? acc + num : acc, 0);
+            document.getElementById('sumResult').textContent = `Sum of even numbers: ${sum}`;
+        }
+
+        // Task 3: Object Manipulation
+        let person;
+
+        function createPerson() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const age = parseInt(document.getElementById('age').value);
+
+            person = {
+                firstName,
+                lastName,
+                age,
+                getFullName() {
+                    return `${this.firstName} ${this.lastName}`;
+                },
+                incrementAge() {
+                    this.age++;
+                }
+            };
+
+            document.getElementById('fullNameResult').textContent = `Full Name: ${person.getFullName()}`;
+            document.getElementById('ageResult').textContent = `Age: ${person.age}`;
+        }
+
+        function incrementAge() {
+            if (person) {
+                person.incrementAge();
+                document.getElementById('ageResult').textContent = `Age: ${person.age}`;
+            } else {
+                alert('Please create a person first.');
+            }
+        }
+    </script>
+
+</body>
+</html>
